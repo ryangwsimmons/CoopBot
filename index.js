@@ -1,18 +1,34 @@
 require('dotenv').config();
 const JobsFetcher = require('./indeed_jobfetcher');
+const { ToadScheduler, SimpleIntervalJob, AsyncTask } = require('toad-scheduler');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
 // Once the bot is ready
 client.once('ready', async () => {
-    // Send a test message to the jobs channel
-    //client.channels.cache.get(process.env.JOBS_CHANNEL_ID).send('Hello World!');
-
+    // Create a new jobs fetcher
     let jobsFetcher = new JobsFetcher(process.env.JOBS_SINCE, process.env.JOBS_QUERY, process.env.JOBS_LOCATION, process.env.JOBS_RADIUS);
 
-    let jobs = await jobsFetcher.fetchJobs();
+    // Update the jobs once on start-up
+    jobsFetcher.fetchJobs().then(jobs => {
+        sendUpdate(jobs);
+    });
 
-    sendUpdate(jobs);
+    // Create a new scheduler to automatically fetch jobs and post them
+    const scheduler = new ToadScheduler();
+
+    // Create a new task for the scheduler
+    const task = new AsyncTask('Fetch Jobs and Send Update', () => {
+        return jobsFetcher.fetchJobs().then(jobs => {
+            sendUpdate(jobs);
+        });
+    }, (err) => {console.log('Error: ' + err.message)});
+
+    // Set up a scheduler job to fetch and send jobs at the specified interval
+    const scheduledTask = new SimpleIntervalJob({seconds: process.env.JOBS_UPDATE_INTERVAL}, task);
+
+    // Add the scheduler job to the scheduler
+    scheduler.addSimpleIntervalJob(scheduledTask);
 });
 
 const sendUpdate = (jobs) => {

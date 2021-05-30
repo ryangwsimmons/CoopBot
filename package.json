@@ -4,7 +4,8 @@
   "description": "A Discord bot for updating users in a server of new jobs in a particular field that have been posted online.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,8 @@
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "node-fetch": "^2.6.1",
-    "node-html-parser": "^3.3.4"
+    "node-html-parser": "^3.3.4",
+    "toad-scheduler": "^1.3.0"
   },
   "devDependencies": {
     "eslint": "^7.27.0"
