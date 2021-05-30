@@ -56,7 +56,7 @@ const sendUpdate = (jobs) => {
 
     // Send "See All" message
     let seeAllMessage = new Discord.MessageEmbed()
-        .setTitle('See All ' + jobs.count + ' Jobs For "' + process.env.JOBS_QUERY + '" Posted in the Past Week')
+        .setTitle('See All ' + jobs.count + ' Jobs For "' + process.env.JOBS_QUERY + '"')
         .setURL(jobs.seeAllLink);
     
     client.channels.cache.get(process.env.JOBS_CHANNEL_ID).send(seeAllMessage);
