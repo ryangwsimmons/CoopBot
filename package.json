@@ -24,7 +24,9 @@
   "homepage": "https://github.com/ryangwsimmons/BCompathon#readme",
   "dependencies": {
     "discord.js": "^12.5.3",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.1",
+    "node-html-parser": "^3.3.4"
   },
   "devDependencies": {
     "eslint": "^7.27.0"
